@@ -608,6 +608,11 @@ static void al_reset(RBinAddrLineStore *als) {
 	store->ht = ht_up_new0 ();
 }
 
+static void al_lock(RBinAddrLineStore *als) {
+	AddrLineStore *store = als->storage;
+	r_strpool_lock (store->pool);
+}
+
 static RList *al_files(RBinAddrLineStore *als) {
 	AddrLineStore *store = als->storage;
 	RList *files = r_list_newf (free);
@@ -698,6 +703,7 @@ static void addrline_store_init(RBinAddrLineStore *b) {
 	b->al_reset = al_reset;
 	b->al_foreach = al_foreach;
 	b->al_files = al_files;
+	b->al_lock = al_lock;
 	b->al_str = al_str;
 }
 
